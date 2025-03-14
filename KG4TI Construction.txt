@@ -1,0 +1,180 @@
+
+// Create categories
+CREATE (:Category {name: "Government"});
+CREATE (:Category {name: "Organization"});
+CREATE (:Category {name: "Threat"});
+CREATE (:Category {name: "Technology"});
+CREATE (:Category {name: "Policy"});
+CREATE (:Category {name: "Sector"});
+CREATE (:Category {name: "Incident"});
+CREATE (:Category {name: "Program"});
+CREATE (:Category {name: "InternationalBody"});
+CREATE (:Category {name: "Agency"});
+CREATE (:Category {name: "Data"});
+CREATE (:Category {name: "Infrastructure"});
+
+// Create examples
+CREATE (:Agency {name: "CBN"});
+CREATE (:Agency {name: "NCC"});
+CREATE (:Policy {name: "NDPR"});
+CREATE (:Threat {name: "Phishing"});
+CREATE (:Threat {name: "Ransomware"});
+CREATE (:Technology {name: "AI"});
+CREATE (:Technology {name: "Encryption"});
+CREATE (:Sector {name: "Banking"});
+CREATE (:Sector {name: "Healthcare"});
+CREATE (:Incident {name: "Data Breach"});
+CREATE (:InternationalBody {name: "INTERPOL"});
+CREATE (:Agency {name: "EFCC"});
+CREATE (:Infrastructure {name: "Critical Systems"});
+
+// Creating more Nodes
+CREATE (:ThreatActor {name: "Cybercriminals"});
+CREATE (:ThreatActor {name: "Hackers"});
+CREATE (:Incident {name: "Malware"});
+CREATE (:Incident {name: "Ransomware Attacks"});
+CREATE (:Incident {name: "Phishing"});
+CREATE (:Incident {name: "Cyber Espionage"});
+CREATE (:Incident {name: "Cybercrime"});
+CREATE (:Incident {name: "Data Breach"});
+CREATE (:Incident {name: "Cyber Extortion"});
+CREATE (:Vulnerability {name: "Human Vulnerability"});
+CREATE (:Vulnerability {name: "Zero-Day Exploits"});
+CREATE (:Vulnerability {name: "Software Vulnerabilities"});
+CREATE (:Mitigation {name: "Antivirus Software"});
+CREATE (:Mitigation {name: "Multi-Factor Authentication"});
+CREATE (:Mitigation {name: "Threat Intelligence"});
+CREATE (:Mitigation {name: "Penetration Testing"});
+CREATE (:Organization {name: "Nigerian Government"});
+CREATE (:Organization {name: "Financial Institutions"});
+CREATE (:Organization {name: "CERT"});
+CREATE (:Organization {name: "NITDA"});
+CREATE (:Organization {name: "Nigerian Banks"});
+CREATE (:Organization {name: "Nigerian Police"});
+CREATE (:Country {name: "Nigeria"});
+CREATE (:Policy {name: "Cybercrime Act"});
+CREATE (:Policy {name: "NDPR"});
+CREATE (:Technology {name: "AI"});
+CREATE (:Technology {name: "Blockchain"});
+CREATE (:Technology {name: "VPN"});
+CREATE (:Technology {name: "Cloud Security"});
+CREATE (:Technology {name: "5G Networks"});
+CREATE (:Technology {name: "Biometric Authentication"});
+CREATE (:Technology {name: "Deepfake Technology"});
+
+
+// Create relationships
+MATCH (g:Category {name: "Government"}), (a:Agency {name: "CBN"})
+CREATE (g)-[:REPRESENTS]->(a);
+
+MATCH (g:Category {name: "Government"}), (a:Agency {name: "NCC"})
+CREATE (g)-[:REPRESENTS]->(a);
+
+MATCH (p:Category {name: "Policy"}), (n:Policy {name: "NDPR"})
+CREATE (p)-[:INCLUDES]->(n);
+
+MATCH (t:Category {name: "Threat"}), (p:Threat {name: "Phishing"})
+CREATE (t)-[:CONTAINS]->(p);
+
+MATCH (t:Category {name: "Threat"}), (r:Threat {name: "Ransomware"})
+CREATE (t)-[:CONTAINS]->(r);
+
+MATCH (tech:Category {name: "Technology"}), (a:Technology {name: "AI"})
+CREATE (tech)-[:CONTAINS]->(a);
+
+MATCH (tech:Category {name: "Technology"}), (e:Technology {name: "Encryption"})
+CREATE (tech)-[:CONTAINS]->(e);
+
+MATCH (s:Category {name: "Sector"}), (b:Sector {name: "Banking"})
+CREATE (s)-[:INCLUDES]->(b);
+
+MATCH (s:Category {name: "Sector"}), (h:Sector {name: "Healthcare"})
+CREATE (s)-[:INCLUDES]->(h);
+
+MATCH (i:Category {name: "Incident"}), (d:Incident {name: "Data Breach"})
+CREATE (i)-[:INCLUDES]->(d);
+
+MATCH (ib:Category {name: "InternationalBody"}), (inter:InternationalBody {name: "INTERPOL"})
+CREATE (ib)-[:REPRESENTS]->(inter);
+
+MATCH (a:Category {name: "Agency"}), (e:Agency {name: "EFCC"})
+CREATE (a)-[:CONTAINS]->(e);
+
+MATCH (inf:Category {name: "Infrastructure"}), (c:Infrastructure {name: "Critical Systems"})
+CREATE (inf)-[:CONTAINS]->(c);
+
+// Create example-specific relationships
+MATCH (cbn:Agency {name: "CBN"}), (bank:Sector {name: "Banking"})
+CREATE (cbn)-[:REGULATES]->(bank);
+
+MATCH (ncc:Agency {name: "NCC"}), (telecom:Sector {name: "Telecom"})
+CREATE (ncc)-[:REGULATES]->(telecom);
+
+MATCH (ndpr:Policy {name: "NDPR"}), (data:Category {name: "Data"})
+CREATE (ndpr)-[:PROTECTS]->(data);
+
+MATCH (phish:Threat {name: "Phishing"}), (bank:Sector {name: "Banking"})
+CREATE (phish)-[:TARGETS]->(bank);
+
+MATCH (ransom:Threat {name: "Ransomware"}), (health:Sector {name: "Healthcare"})
+CREATE (ransom)-[:TARGETS]->(health);
+
+MATCH (ai:Technology {name: "AI"}), (ti:Category {name: "Threat Intelligence"})
+CREATE (ai)-[:USED_FOR]->(ti);
+
+MATCH (encrypt:Technology {name: "Encryption"}), (breach:Incident {name: "Data Breach"})
+CREATE (encrypt)-[:PREVENTS]->(breach);
+
+MATCH (efcc:Agency {name: "EFCC"}), (crime:Category {name: "Cybercrime"})
+CREATE (efcc)-[:HANDLES]->(crime);
+
+MATCH (interpol:InternationalBody {name: "INTERPOL"}), (crime:Category {name: "Cybercrime"})
+CREATE (interpol)-[:COLLABORATES_ON]->(crime);
+
+MATCH (critical:Infrastructure {name: "Critical Systems"}), (energy:Sector {name: "Energy"})
+CREATE (critical)-[:BELONGS_TO]->(energy);
+
+
+
+// Creating more Relationships
+MATCH (a:ThreatActor {name: "Cybercriminals"}), (b:Organization {name: "Banking Sector"})
+CREATE (a)-[:TARGETS]->(b);
+
+MATCH (a:Incident {name: "Malware"}), (b:Mitigation {name: "Antivirus Software"})
+CREATE (a)-[:DETECTED_BY]->(b);
+
+MATCH (a:Incident {name: "Phishing"}), (b:Vulnerability {name: "Human Vulnerability"})
+CREATE (a)-[:EXPLOITS]->(b);
+
+MATCH (a:Incident {name: "Cybercrime"}), (b:Country {name: "Nigeria"})
+CREATE (a)-[:OCCURRED_IN]->(b);
+
+MATCH (a:Incident {name: "Data Breach"}), (b:Organization {name: "Financial Institutions"})
+CREATE (a)-[:REPORTED_BY]->(b);
+
+MATCH (a:ThreatActor {name: "Hackers"}), (b:Incident {name: "Ransomware Attacks"})
+CREATE (a)-[:CONDUCTED]->(b);
+
+MATCH (a:Incident {name: "Cyber Espionage"}), (b:Organization {name: "Nigerian Government"})
+CREATE (a)-[:THREATENS]->(b);
+
+MATCH (a:Policy {name: "Cybercrime Act"}), (b:Incident {name: "Cybersecurity Offenses"})
+CREATE (a)-[:LEGISLATES]->(b);
+
+MATCH (a:Technology {name: "AI"}), (b:Mitigation {name: "Threat Intelligence"})
+CREATE (a)-[:UTILIZED_FOR]->(b);
+
+MATCH (a:Technology {name: "Blockchain"}), (b:Mitigation {name: "Secure Transactions"})
+CREATE (a)-[:ENHANCES]->(b);
+
+MATCH (a:ThreatActor {name: "Hacktivist Groups"}), (b:Organization {name: "Government Infrastructure"})
+CREATE (a)-[:TARGETS]->(b);
+
+MATCH (a:Technology {name: "Biometric Authentication"}), (b:Mitigation {name: "Identity Security"})
+CREATE (a)-[:ENHANCES]->(b);
+
+MATCH (a:Technology {name: "5G Networks"}), (b:Incident {name: "Cybersecurity Risks"})
+CREATE (a)-[:EXPOSED_TO]->(b);
+
+MATCH (a:ThreatActor {name: "Threat Actors"}), (b:Country {name: "Nigeria"})
+CREATE (a)-[:OPERATES_IN]->(b);
